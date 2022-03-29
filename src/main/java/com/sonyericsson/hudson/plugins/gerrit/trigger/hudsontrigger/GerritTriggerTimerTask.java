@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 public class GerritTriggerTimerTask extends TimerTask {
     //TODO possible need to handle renames
     private String job;
-    private static final Logger logger = LoggerFactory.getLogger(GerritTrigger.class);
+    private static final Logger logger = LoggerFactory.getLogger(GerritTriggerTimerTask.class);
     /**
      * Constructor
      *
