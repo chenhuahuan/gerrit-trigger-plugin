@@ -1050,7 +1050,7 @@ public class GerritTrigger extends Trigger<Job> {
             return false;
         }
 
-        logger.trace("{}#Checking isInteresting for the event: {}", job.getFullName(),event);
+        logger.trace("{}#Checking isInteresting for the event: {}", job.getFullName(), event);
 
         Iterator<GerritProject> allGerritProjects = getAllGerritProjectsIterator();
         while (allGerritProjects.hasNext()) {
@@ -1066,7 +1066,7 @@ public class GerritTrigger extends Trigger<Job> {
                     if (p.isInteresting(refUpdated.getRefUpdate().getProject(),
                                         refUpdated.getRefUpdate().getRefName(),
                                         null)) {
-                        logger.trace("{}#According to {} the event is interesting; event: {}",job.getFullName(), p, event);
+                        logger.trace("{}#According to {} is interested in event: {}", job.getFullName(), p, event);
                         return true;
                     }
                 }
@@ -1075,7 +1075,7 @@ public class GerritTrigger extends Trigger<Job> {
                        new Object[]{job.getName(), p.getPattern(), pse.getMessage()}));
             }
         }
-        logger.trace("{}#Event is not interesting; event: {}",job.getFullName(), event);
+        logger.trace("{}#Event is not interesting; event: {}", job.getFullName(), event);
         return false;
     }
 
@@ -1923,7 +1923,8 @@ public class GerritTrigger extends Trigger<Job> {
             } else {
                 logger.debug("{}#Get dynamicGerritProjects", job.getFullName());
                 dynamicGerritProjects = DynamicConfigurationCacheProxy.getInstance().fetchThroughCache(triggerConfigURL);
-                logger.debug("{}#Current dynamicGerritProjects, size:{}, content: {}", job.getFullName(), dynamicGerritProjects.size(), dynamicGerritProjects);
+                logger.debug("{}#Current dynamicGerritProjects, size:{}, content: {}",
+                        job.getFullName(), dynamicGerritProjects.size(), dynamicGerritProjects);
             }
         } catch (ParseException pe) {
             String logErrorMessage = MessageFormat.format(

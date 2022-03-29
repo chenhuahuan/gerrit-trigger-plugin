@@ -59,7 +59,7 @@ public class GerritTriggerTimerTask extends TimerTask {
     public void run() {
         GerritTrigger trigger = getGerritTrigger();
         if (trigger == null) {
-            logger.debug("Found trigger is null, skipping GerritTriggerTimerTask#updateTriggerConfigURL for project: {}", this);
+            logger.debug("{}#Found trigger is null, skipping GerritTriggerTimerTask#updateTriggerConfigURL", this);
             return;
         }
         // Do not skip updates since tasks might wait for the update
