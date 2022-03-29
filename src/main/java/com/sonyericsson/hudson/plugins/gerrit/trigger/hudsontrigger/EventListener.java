@@ -155,6 +155,7 @@ public final class EventListener implements GerritEventListener {
             //
             // We are going to assume we've been asked to cancel, so we're going
             // to just return now without processing the event.
+            logger.warn("{}#gerritEvent() runs into InterruptedException dealing with event: {}", job, event);
             return;
         }
         if (t.isInteresting(event)) {

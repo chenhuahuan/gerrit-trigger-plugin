@@ -29,6 +29,8 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import jenkins.model.Jenkins;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TimerTasks that are created from a GerritTrigger and periodically calls
@@ -39,7 +41,7 @@ import jenkins.model.Jenkins;
 public class GerritTriggerTimerTask extends TimerTask {
     //TODO possible need to handle renames
     private String job;
-
+    private static final Logger logger = LoggerFactory.getLogger(GerritTrigger.class);
     /**
      * Constructor
      *
@@ -57,9 +59,11 @@ public class GerritTriggerTimerTask extends TimerTask {
     public void run() {
         GerritTrigger trigger = getGerritTrigger();
         if (trigger == null) {
+            logger.debug("Found trigger is null, skipping GerritTriggerTimerTask#updateTriggerConfigURL for project: {}", this);
             return;
         }
         // Do not skip updates since tasks might wait for the update
+        logger.debug("{}#Trying to update GerritTriggerTimerTask#updateTriggerConfigURL", this);
         trigger.updateTriggerConfigURL();
     }
 

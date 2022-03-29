@@ -1027,7 +1027,7 @@ public class GerritTrigger extends Trigger<Job> {
         }
 
         if (!job.isBuildable()) {
-            logger.trace("Disabled.");
+            logger.trace("{} Disabled.", job.getFullName());
             return false;
         }
 
@@ -1050,7 +1050,7 @@ public class GerritTrigger extends Trigger<Job> {
             return false;
         }
 
-        logger.trace("entering isInteresting for the event: {}", event);
+        logger.trace("{}#Checking isInteresting for the event: {}", job.getFullName(),event);
 
         Iterator<GerritProject> allGerritProjects = getAllGerritProjectsIterator();
         while (allGerritProjects.hasNext()) {
@@ -1066,7 +1066,7 @@ public class GerritTrigger extends Trigger<Job> {
                     if (p.isInteresting(refUpdated.getRefUpdate().getProject(),
                                         refUpdated.getRefUpdate().getRefName(),
                                         null)) {
-                        logger.trace("According to {} the event is interesting; event: {}", p, event);
+                        logger.trace("{}#According to {} the event is interesting; event: {}",job.getFullName(), p, event);
                         return true;
                     }
                 }
@@ -1075,7 +1075,7 @@ public class GerritTrigger extends Trigger<Job> {
                        new Object[]{job.getName(), p.getPattern(), pse.getMessage()}));
             }
         }
-        logger.trace("Event is not interesting; event: {}", event);
+        logger.trace("{}#Event is not interesting; event: {}",job.getFullName(), event);
         return false;
     }
 
@@ -1921,7 +1921,9 @@ public class GerritTrigger extends Trigger<Job> {
             if (!dynamicTriggerConfiguration || job == null || !job.isBuildable()) {
                 dynamicGerritProjects = Collections.emptyList();
             } else {
+                logger.debug("{}#Get dynamicGerritProjects", job.getFullName());
                 dynamicGerritProjects = DynamicConfigurationCacheProxy.getInstance().fetchThroughCache(triggerConfigURL);
+                logger.debug("{}#Current dynamicGerritProjects, size:{}, content: {}", job.getFullName(), dynamicGerritProjects.size(), dynamicGerritProjects);
             }
         } catch (ParseException pe) {
             String logErrorMessage = MessageFormat.format(
@@ -1965,6 +1967,8 @@ public class GerritTrigger extends Trigger<Job> {
             }
             // Always release all locks otherwise workers will be stuck forever
             projectListIsReady.countDown();
+            logger.debug("{}#Trigger config URL updated; always countDown it to {}", job.getName(),
+                    projectListIsReady.getCount());
         }
     }
 
