@@ -1916,7 +1916,7 @@ public class GerritTrigger extends Trigger<Job> {
             triggerInformationAction = new GerritTriggerInformationAction();
         }
 
-
+        triggerInformationAction.setErrorMessage("");
         try {
 
             // Check if dynamic trigger was disabled in the meantime
