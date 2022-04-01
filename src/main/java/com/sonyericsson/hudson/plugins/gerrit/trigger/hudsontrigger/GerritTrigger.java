@@ -1915,14 +1915,22 @@ public class GerritTrigger extends Trigger<Job> {
         if (triggerInformationAction == null) {
             triggerInformationAction = new GerritTriggerInformationAction();
         }
-        triggerInformationAction.setErrorMessage("");
+
+
         try {
+
             // Check if dynamic trigger was disabled in the meantime
             if (!dynamicTriggerConfiguration || job == null || !job.isBuildable()) {
                 dynamicGerritProjects = Collections.emptyList();
             } else {
                 dynamicGerritProjects = DynamicConfigurationCacheProxy.getInstance().fetchThroughCache(triggerConfigURL);
             }
+            String runTimeExceptionMessage = MessageFormat.format(
+                    "Throw a Runtime Exception for project: {0} and URL: {1}, this log line should show once!",
+                    job.getName(), triggerConfigURL);
+            logger.error(runTimeExceptionMessage);
+            throw new RuntimeException(runTimeExceptionMessage);
+
         } catch (ParseException pe) {
             String logErrorMessage = MessageFormat.format(
                     "ParseException for project: {0} and URL: {1} Message: {2}",
